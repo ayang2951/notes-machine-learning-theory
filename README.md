@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-# project template
+# STATGR6203 THEORETICAL MACHINE LEARNING
 
-## colors/themes etc.
-=======
-# columbia statistics STATGR6203 
->>>>>>> e9c28ee (override)
+Columbia Statistics
 
 LINK: https://ayang2951.github.io/notes-machine-learning-theory/
