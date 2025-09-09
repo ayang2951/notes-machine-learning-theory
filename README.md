@@ -1,5 +1,3 @@
-LINK: https://ayang2951.github.io/notes-machine-learning-theory/
-
 # project template
 
 ## colors/themes etc.
