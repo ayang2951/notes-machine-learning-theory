@@ -3,7 +3,7 @@
 marked.setOptions({ gfm:true, mangle:false, headerIds:false });
 
 const ORDERED_NOTES = [
-  { file: "intro_erm.md", title: "Section 1: Introduction to Empirical Risk Minimization" }
+  { file: "learning.md", title: "Introduction to Learning" }
 ];
 
 function $id(id){ return document.getElementById(id); }
@@ -103,7 +103,7 @@ function addBookmarkButtons() {
   // clear any old ones
   document.querySelectorAll('.bookmark-btn').forEach(b => b.remove());
 
-  const blocks = document.querySelectorAll('.callout, h2, h3');
+  const blocks = document.querySelectorAll('.callout, p');
   blocks.forEach((el, idx) => {
     if (!el.id) el.id = `bookmarkable-${idx}`;
 
