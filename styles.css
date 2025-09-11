@@ -1,5 +1,5 @@
 :root{
-    --max-w: 900px;
+    --max-w: 1000px;
     --side-pad: clamp(16px, 4vw, 40px);
 
     --accent: rgb(112, 112, 112);
@@ -331,4 +331,9 @@ h3:hover > .bookmark-btn {
 ul li,
 ol li {
   margin-bottom: 0.5rem; /* adjust value for spacing */
+}
+
+/* Slightly reduce spacing after display equations in plain text only */
+:not(.callout) .MathJax_Display {
+  margin-bottom: 0.1rem; /* smaller gap, adjust value as needed */
 }
