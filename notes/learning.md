@@ -314,7 +314,7 @@ Then (provided the $X$ values are all distinct&mdash;which would be the case if 
 <p style="color: red;">[include diagram].</p>
 
 <p align="center">
-  <img src="../images/picture.jpg" alt="Fitted Polynomials" width="800"/>
+  <img src="../images/picture.jpeg" alt="Fitted Polynomials" width="800"/>
 </p>
 
 </div>
