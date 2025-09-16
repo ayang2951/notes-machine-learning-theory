@@ -29,6 +29,7 @@ async function loadAll(){
   buildToc();
   autoNumberCallouts();
   addBookmarkButtons();
+  removeEmptyParagraphs();
 }
 
 function buildToc(){
@@ -36,8 +37,20 @@ function buildToc(){
   tocEl().innerHTML = `<div class="toc-list">${secs.map(h=>`<a href="#${h.parentElement.id}">${h.textContent}</a>`).join('')}</div>`;
 }
 
+/* Remove empty <p> tags that result from extra blank lines.
+   Leaves paragraphs that contain MathJax or images intact.
+*/
+function removeEmptyParagraphs() {
+  // run on document content
+  document.querySelectorAll('#content p').forEach(p => {
+    // if trimmed text is empty AND no MathJax/svg/img inside -> remove
+    const textEmpty = p.textContent.trim() === '';
+    const hasMathOrMedia = p.querySelector('.MathJax, svg, img') !== null;
+    if (textEmpty && !hasMathOrMedia) p.remove();
+  });
+}
+
 /* Auto-number callouts with colon */
-/* Replace existing autoNumberCallouts() with this block */
 function autoNumberCallouts(){
   document.querySelectorAll('.note-section').forEach(sec=>{
     const secIdx = sec.dataset.sec || (sec.id||'').replace(/^[^\d]*(\d+).*$/,'$1') || '0';
