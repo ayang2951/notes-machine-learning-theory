@@ -3,7 +3,8 @@
 marked.setOptions({ gfm:true, mangle:false, headerIds:false });
 
 const ORDERED_NOTES = [
-  { file: "learning.md", title: "Introduction to Learning" }
+  { file: "learning.md", title: "Introduction to Learning" },
+  { file: "complexity.md", title: "Complexity" }
 ];
 
 function $id(id){ return document.getElementById(id); }

@@ -312,7 +312,7 @@ We compare this to ordinary least squares linear regression, where the degree $p
 <p style="color: red;">[include diagram].</p>
 
 <p align="center">
-  <img src="../images/picture.jpeg" alt="Fitted Polynomials" width="800"/>
+  <img src="images/picture.jpeg" alt="Fitted Polynomials" width="800"/>
 </p>
 
 As we see in the diagram, when in the case of polynomial regression where we consider the complexity to relate to the notion of degrees of freedom, with the more complex class (far higher degree of polynomial), we see a more "variable" $\hat R(\hat f)$. 
@@ -326,3 +326,32 @@ However, in the OLS setting, we expect that the training and testing empirical r
 Similarly, in a logistic regression setting for binary classification, the same principles apply for the predictors: we may choose to include higher degree terms as predictors in our logistic regression, and we see a similar increase in complexity and increase in the variability of the empirical risk of the estimator when the polynomial degree increases.
 </div>
 
+
+
+Consider the case that we know the form of $f^{**} \in \mathcal F$. We have therefore assumed the form of the distribution $Y | X$. To make this concrete, consider our favorite simple setting: linear regression.
+
+
+
+<div class="callout example"><span class="label">Example: Linear Regression</span><br/>
+<hr style="height:0.01px; visibility:hidden;" />
+Consider the "standard" regression setup wherein
+$$Y_i = ({w^*})^T x_i + \epsilon_i,$$
+and we have $\epsilon_i \perp X_i$, $\mathbb E[\epsilon_i] = 0$, and $\text{Var}(\epsilon_i) = \sigma^2$ for all $i \in \\{1, 2 \ldots n\\}$.
+
+Assuming this probabilistic setup means that we consider it known that $\mathbb E[Y | X = x] = {(w^*)}^T x$. Hence, we shall choose the class
+
+$$\mathcal F = \\{f_w(x) = w^T x : w \in \mathbb R^d\\}.$$
+We then have, defining $f^\* = \mathbb E[Y | X = x]$, the excess risk
+
+$$\mathcal E(f_w) = R(f_w) - R(f^{\*}) = \mathbb E[((w - w^\*)^T x)^2] = \left\Vert w - w^\* \right\Vert_\Sigma^2,$$
+where we define $\Sigma \triangleq \mathbb E[x x^T]$ and $\left\Vert a \right\Vert_\Sigma^2 \triangleq a^T \Sigma a$.
+
+Consider the fixed design setting, wherein we have the predictors $X_i$ thought of as given, not random. Without loss of generality, consider the features to be centered, i.e. $\bar X = 0$. Let us define
+$$\Sigma_n = \frac{1}{n} \sum_{i = 1}^n x_i x_i^T = \frac{1}{n} X^TX.$$
+We have the excess risk
+$$\mathcal E(w) = $$
+</div>
+
+
+
+These examples motivate our understanding of "complexity of classes". We now further discuss and continue to build this definition in the next section.
