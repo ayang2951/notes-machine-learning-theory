@@ -301,11 +301,20 @@ In this setting, we may view the complexity as degrees of freedom. The larger th
 
 
 
-<p style="color: red;">[include diagram].</p>
+
 
 
 
 <div class="callout example"><span class="label">Example: Polynomial Regression with $p \geq n$</span><br/>
 <hr style="height:0.01px; visibility:hidden;" />
-Consider the extreme case where the degree $p$ is larger than or equal to the number of datapoints $n$. Then (provided the $X$ values are all distinct&mdash;which would be the case if $X$ were drawn from a continuous distribution) the curve perfectly fits all $n$ datapoints for any sample of size $n$, resulting in empirical risk of 0.
+Consider the extreme case where the degree $p$ is larger than or equal to the number of datapoints $n$. 
+
+Then (provided the $X$ values are all distinct&mdash;which would be the case if $X$ were drawn from a continuous distribution) the curve perfectly fits all $n$ datapoints for any sample of size $n$, resulting in empirical risk of 0.
+
+<p style="color: red;">[include diagram].</p>
+
+<p align="center">
+  <img src="../images/picture.jpg" alt="Fitted Polynomials" width="1000"/>
+</p>
+
 </div>
