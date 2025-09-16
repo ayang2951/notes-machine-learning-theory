@@ -280,7 +280,7 @@ There are two quantities that help motivate our understanding of complexity.
 <ol type="1">
 <li>First, we may think about the variance of the estimator, which is computed from the sample $S$: 
 $$\text{Var}_{S}(\hat f).$$</li>
-<li>Second, we may be interested in the "variability" of the empirical risk across different samples: for instance, for two equally-sized samples $S_1$ and $S_2$, we might be interested in the quantity
+<li>Second, we may be interested in the "variability" of the empirical risk across different samples: for instance, for two samples $S_1$ and $S_2$, we might be interested in the quantity
 $$|\hat R_{S_1}(\hat f) - \hat R_{S}(\hat f)|.$$</li>
 </ol>
 
@@ -297,19 +297,17 @@ These quantities seek to quantify the "variability" of the empirical risk of the
 We now make the notion more concrete by looking at regression. In linear and polynomial regression, we have a number of predictors $X \in \mathbb R^d$, and an outcome $Y \in \mathbb R$. We may consider polynomials of degree $p$, and to do this, introduce the following notation: for $x \in \mathbb R^d$, $\alpha \in \mathbb N^d$, let $|\alpha| \triangleq \sum\_{i = 1}^d \alpha i$ and $x^\alpha \triangleq \prod\_{i = 1}^d x_{i}^{\alpha_i}$. Hence, any polynomial of degree $p$ may be written as
 
 $$f(x) = \sum\_{|\alpha| \leq p} a_{\alpha} x^\alpha.$$
-In this setting, we may view the complexity as degrees of freedom. The larger the specified degree $p$ for the polynomial, the larger the variability of $\hat f$ over different samples. 
+In this setting, we may view the complexity as degrees of freedom. The larger the specified degree $p$ for the polynomial, the larger the variability of $\hat f$ over different samples. We try to illustrate this intuitively in the example below.
 
 
 
-
-
-
-
-<div class="callout example"><span class="label">Example: Polynomial Regression with $p \geq n$</span><br/>
+<div class="callout example"><span class="label">Example: Linear Regression vs. Polynomial Regression with $p \geq n$</span><br/>
 <hr style="height:0.01px; visibility:hidden;" />
-Consider the extreme case where the degree $p$ is larger than or equal to the number of datapoints $n$. 
+Consider the extreme case of polynomial regression where the degree $p$ is larger than or equal to the number of datapoints $n$. 
 
-Then (provided the $X$ values are all distinct&mdash;which would be the case if $X$ were drawn from a continuous distribution) the curve perfectly fits all $n$ datapoints for any sample of size $n$, resulting in empirical risk of 0.
+Then (provided the $X$ values are all distinct&mdash;which would be the case with probability 1 if $X$ were drawn from a continuous distribution) the curve perfectly fits all $n$ datapoints for any sample of size $n$, resulting in empirical risk of 0. However, we see that since the fitted function must go through every datapoint, it is very sensitive to the sample.
+
+We compare this to ordinary least squares linear regression, where the degree $p = 1$.
 
 <p style="color: red;">[include diagram].</p>
 
@@ -317,4 +315,14 @@ Then (provided the $X$ values are all distinct&mdash;which would be the case if 
   <img src="../images/picture.jpeg" alt="Fitted Polynomials" width="800"/>
 </p>
 
+As we see in the diagram, when in the case of polynomial regression where we consider the complexity to relate to the notion of degrees of freedom, with the more complex class (far higher degree of polynomial), we see a more "variable" $\hat R(\hat f)$. 
+
+Consider a training set $S$ on which $\hat f$ is trained and a test set $T$ on which we can compute the empirical risk of $\hat f$. We would obtain, because $p \geq n$, that $\hat R_S(\hat f) = 0$, since the fitted model runs through every point exactly. However, for the test set $T$, which is another sample from the joint distribution of $(X, Y)$, we would expect a very large empirical risk, since the polynomial regression has severely overfit to the training set. Hence
+$$|\hat R_S(\hat f) - \hat R_T(\hat f)|$$
+should be very large.
+
+However, in the OLS setting, we expect that the training and testing empirical risk should not be <i>extremely</i> different.
+
+Similarly, in a logistic regression setting for binary classification, the same principles apply for the predictors: we may choose to include higher degree terms as predictors in our logistic regression, and we see a similar increase in complexity and increase in the variability of the empirical risk of the estimator when the polynomial degree increases.
 </div>
+
