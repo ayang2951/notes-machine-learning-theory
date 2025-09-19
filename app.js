@@ -301,3 +301,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+
+/**
+ * <p align="center">
+  <img src="./images/picture.jpeg" alt="Fitted Polynomials" width="800"/>
+</p>
+ */

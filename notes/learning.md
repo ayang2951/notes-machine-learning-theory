@@ -252,9 +252,8 @@ An estimator of the Bayes optimal classifier can be analogous to the above for t
 One nuance to be made clear about the function $f^{**}$ is that it is the minimizer over the universe $\mathcal U$. We often restrict the class over which we optimize (or compare) to a class $\mathcal F$ for some type of practicality.
 
 If we are discussing the optimizer in that particular class, we have
-$$f^{*} = \arg \min_{f \in \mathcal F} R(f).$$
-
-Sometimes, it is prudent to simply assume that $f^* = \arg\min_{f \in \mathcal F}R(f) \in \mathcal F$, where $\mathcal F$ is some appropriate class, for example the class of all Lipschitz functions, or Sobolev or Hölder.
+$$f^{\*} = \arg \min_{f \in \mathcal F} R(f).$$
+Sometimes, it is prudent to simply assume that $f^\* = \arg\min_{f \in \mathcal F}R(f) \in \mathcal F$, where $\mathcal F$ is some appropriate class, for example the class of all Lipschitz functions, or Sobolev or Hölder.
 </div>
 
 
@@ -262,6 +261,10 @@ Sometimes, it is prudent to simply assume that $f^* = \arg\min_{f \in \mathcal F
 ## Convergence Rates
 
 We are typically interested in the convergence and convergence rates of the <i>excess</i> risk rather than the risk itself. This is because we generally cannot expect the convergence of the actual risk: for example, in the case of regression, the noise of a new datapoint results in an irreducible term in the risk. Hence, we instead look at the convergence (and rates) for the excess risk.
+
+
+
+### Convergence Rates and Complexity of the Model Class
 
 In the literature&mdash;for instance, for ERM (empirical risk minimization)&mdash;we may see convergence rates for the excess risk of the form
 $$\mathcal E(\hat f) = \left(\frac{\mathcal C(\mathcal F)}{n}\right)^{\alpha},$$
@@ -311,10 +314,6 @@ We compare this to ordinary least squares linear regression, where the degree $p
 
 <p style="color: red;">[include diagram].</p>
 
-<p align="center">
-  <img src="images/picture.jpeg" alt="Fitted Polynomials" width="800"/>
-</p>
-
 As we see in the diagram, when in the case of polynomial regression where we consider the complexity to relate to the notion of degrees of freedom, with the more complex class (far higher degree of polynomial), we see a more "variable" $\hat R(\hat f)$. 
 
 Consider a training set $S$ on which $\hat f$ is trained and a test set $T$ on which we can compute the empirical risk of $\hat f$. We would obtain, because $p \geq n$, that $\hat R_S(\hat f) = 0$, since the fitted model runs through every point exactly. However, for the test set $T$, which is another sample from the joint distribution of $(X, Y)$, we would expect a very large empirical risk, since the polynomial regression has severely overfit to the training set. Hence
@@ -328,11 +327,13 @@ Similarly, in a logistic regression setting for binary classification, the same 
 
 
 
-Consider the case that we know the form of $f^{**} \in \mathcal F$. We have therefore assumed the form of the distribution $Y | X$. To make this concrete, consider our favorite simple setting: linear regression.
+Having established the value of considering the "variability" of the risk function and its relation to the class complexity, we return to our original objective of thinking about the convergence of excess risk.
+
+Consider the case that we assume $f^{**} \in \mathcal F$. We have therefore assumed the form of the distribution $Y | X$. To make this concrete, consider our favorite simple setting: linear regression.
 
 
 
-<div class="callout example"><span class="label">Example: Linear Regression</span><br/>
+<div class="callout example"><span class="label">Example: Convergence in Expectation for Excess Risk in Linear Regression</span><br/>
 <hr style="height:0.01px; visibility:hidden;" />
 Consider the "standard" regression setup wherein
 $$Y_i = ({w^*})^T x_i + \epsilon_i,$$
@@ -348,10 +349,48 @@ where we define $\Sigma \triangleq \mathbb E[x x^T]$ and $\left\Vert a \right\Ve
 
 Consider the fixed design setting, wherein we have the predictors $X_i$ thought of as given, not random. Without loss of generality, consider the features to be centered, i.e. $\bar X = 0$. Let us define
 $$\Sigma_n = \frac{1}{n} \sum_{i = 1}^n x_i x_i^T = \frac{1}{n} X^TX.$$
-We have the excess risk
-$$\mathcal E(w) = $$
+We have the excess risk, as stated above (note that $\Sigma_n$ replaces $\Sigma$ here, as the $X_i$ values are considered fixed constants),
+$$\mathcal E(f_w) = \left\Vert w - w^* \right\Vert\_{\Sigma_n}^2.$$
+For the estimator $\hat w$, we obtain
+$$\hat w = \arg\min_{w \in \mathbb R^d} \frac{1}{n} \sum_{i = 1}^n (y_i - w^T x_i)^2 = \arg\min_{w \in \mathbb R^d} \frac{1}{n} \left\Vert Y - X \cdot w \right\Vert_2^2.$$
+As always, we obtain the estimator $\hat w = (X^TX)^{-1}(X^T Y)$ (assuming that $X^TX$ is invertible&mdash;if not, we can use the Moore-Penrose pseudoinverse and use the minimum norm solution).
+
+We can expand the estimator as
+$$\hat w = (X^TX)^{-1}X^T(X \cdot w^* + \epsilon) = w^* + (X^TX)^{-1}X^T\epsilon,$$
+and hence we have $w - w^* = (X^TX)^{-1}X^T\epsilon$.
+Using the above norm notation for the excess risk with linear $f_w$, we have
+$$\mathcal E(\hat w) = {(\hat w - w^\*)}^T \Sigma_n (\hat w - w^\*) \overset{(1)}= \frac{1}{n} \bigg[(\epsilon^T X({X^TX})^{-1})\bigg] \bigg[X^TX\bigg] \bigg[((X^TX)^{-1}X^T\epsilon)\bigg] \overset{(2)}= \frac{1}{n} \cdot \text{Tr}\bigg[(X^TX)({X^TX})^{-1}X^T \epsilon \epsilon^T X{(X^TX)}^{-1}\bigg],$$
+where $(1)$ is by using the definition of $\Sigma_n$ and pulling out the constant, and $(2)$ is using the trace trick.
+
+Hence, in expectation (and after simplifying), we have
+$$\mathbb E_{S}[\mathcal E(\hat w)] = \frac{1}{n} X^T \mathbb E[\epsilon \epsilon^T] X \cdot {(X^TX)}^{-1} \overset{(3)}= \frac{\sigma^2}{n} \text{Tr}(\mathbb I_{d \times d}) = \frac{d\sigma^2}{n},$$
+where $(3)$ is because $\epsilon_i$ has mean 0 covariance $\sigma^2$ and are all independent.
+
+We therefore have our form for the convergence in $L_1$ for the excess risk in the fixed-design ordinary least squares setting.
 </div>
 
 
 
-These examples motivate our understanding of "complexity of classes". We now further discuss and continue to build this definition in the next section.
+This is a simple, concrete example in our broader goal to analyze the excess risk.
+
+
+
+<div class="callout remark"><span class="label">Remark: Excess Risk for Polynomial Regression</span><br/>
+<hr style="height:0.01px; visibility:hidden;" />
+In the case of polynomial regression with degree $p$, we would obtain 
+$$\mathbb E_S[\mathcal E \hat w] = \frac{D_p\cdot \sigma^2}{n}$$
+where $D_p = O(d^p)$.
+</div>
+
+In both cases, we see that a term representing the class complexity for both polynomials of degree 1 versus degree $p > 1$ is found in the excess risk in the form of $d^p$. 
+
+
+
+<div class="callout remark"><span class="label">Remark: Removing the Fixed Design Assumption</span><br/>
+<hr style="height:0.01px; visibility:hidden;" />
+We will eventually want to remove the fixed design assumption. To do this, we will aim to relate the quantity $\mathbb E[XX^T]$ with the quantity we are currently using, $\Sigma_n = \frac{1}{n} XX^T$. Hence, we will analyze and compare the quantities $\left\Vert w - w^* \right\Vert^2_{\Sigma_n}$ and $\left\Vert w - w^*\right\Vert_{\Sigma}^2$.
+</div>
+
+
+
+These examples motivate our understanding of "complexity of classes" and its relationship to the excess risk. We now further discuss and continue to build this definition in the next section.
